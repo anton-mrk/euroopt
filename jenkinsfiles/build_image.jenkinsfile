@@ -12,12 +12,30 @@
          timestamps()
      }
      stages {
+         stage("docker login") {
+             steps {
+                 echo " ============== dockerhub login ==============="
+                 withCredentials([usernamePassword(credentialsId: 'dockerhub_antonmrk', usernameVariable: 'USERNAME", passwordVariable: 'PASSWORD')]) {
+                     sh """
+                     docker login -u $USERNAME -p $PASSWORD
+                     """
+                 }
+             }
+         }
          stage("create docker image") {
              steps {
                  echo " ============== start building image =================="
                  dir ('docker') {
-                 	sh 'docker build -t nginx:1 . '
+                 	sh 'docker build -t antonmrk/euroopt:latest . '
                  }
+             }
+         }
+         stage("docker push") {
+             steps {
+                 echo " ============== start push image ==============="
+                 sh """
+                 docker push antonmrk/euroopt:latest
+                 """
              }
          }
      }
