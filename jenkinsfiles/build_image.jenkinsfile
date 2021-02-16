@@ -16,7 +16,7 @@
              steps {
                  echo " ============== start building image =================="
                  dir ('docker') {
-                 	sh 'docker build -t nginx:latest . '
+                 	sh 'docker build -t nginx:1 . '
                  }
              }
          }
