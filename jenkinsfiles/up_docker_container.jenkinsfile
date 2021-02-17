@@ -9,7 +9,7 @@
      triggers { 
          upstream (
              upstreamProjects: 'Create_image',
-             threshold: hudson.model.Result.SUCCESS
+             threshold: hudson.model.Result.SUCCESS )
      }
      options {
          buildDiscarder(logRotator(numToKeepStr: '3', artifactNumToKeepStr: '2'))
