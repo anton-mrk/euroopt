@@ -14,29 +14,11 @@
      stages {
          stage("docker login") {
             steps {
-                echo " ============== docker login =================="
-                withCredentials([usernamePassword(credentialsId: 'dockerhub_antonmrk', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh """
-                    docker login -u $USERNAME -p $PASSWORD
-                    """
+                echo " ============== run docker container =================="
+                    sh " docker image prune -a -f "
+                    sh " docker run -p 80:80 -d antonmrk/euroopt:latest "
                 }
             }
-         }
-         stage("create docker image") {
-             steps {
-                 echo " ============== start building image =================="
-                 dir ('docker') {
-                 	sh 'docker build -t antonmrk/euroopt:latest . '
-                 }
-             }
-         }
-         stage("docker push") {
-             steps {
-                 echo " ============== start push image ==============="
-                 sh """
-                 docker push antonmrk/euroopt:latest
-                 """
-             }
          }
      }
  }
