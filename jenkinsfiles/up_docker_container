@@ -1,0 +1,42 @@
+#!groovy
+ // Run docker build
+ properties([disableConcurrentBuilds()])
+
+ pipeline {
+     agent { 
+         label 'master'
+         }
+     triggers { upstream 'Create_image', hudson.model.Result.SUCCESS}
+     options {
+         buildDiscarder(logRotator(numToKeepStr: '3', artifactNumToKeepStr: '2'))
+         timestamps()
+     }
+     stages {
+         stage("docker login") {
+            steps {
+                echo " ============== docker login =================="
+                withCredentials([usernamePassword(credentialsId: 'dockerhub_antonmrk', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh """
+                    docker login -u $USERNAME -p $PASSWORD
+                    """
+                }
+            }
+         }
+         stage("create docker image") {
+             steps {
+                 echo " ============== start building image =================="
+                 dir ('docker') {
+                 	sh 'docker build -t antonmrk/euroopt:latest . '
+                 }
+             }
+         }
+         stage("docker push") {
+             steps {
+                 echo " ============== start push image ==============="
+                 sh """
+                 docker push antonmrk/euroopt:latest
+                 """
+             }
+         }
+     }
+ }
