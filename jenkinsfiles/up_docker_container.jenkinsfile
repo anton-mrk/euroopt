@@ -19,8 +19,9 @@
          stage("docker login") {
             steps {
                 echo " ============== run docker container =================="
+                    sh " docker stop $(docker ps -a -q) "
                     sh " docker image prune -a -f "
-                    sh " docker run -p 555:80 -d antonmrk/euroopt:latest "
+                    sh " docker run -d -p 80:80 antonmrk/euroopt"
             }
          }
      }
