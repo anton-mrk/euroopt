@@ -12,14 +12,13 @@
              threshold: hudson.model.Result.SUCCESS )
      }
      options {
-         buildDiscarder(logRotator(numToKeepStr: '3', artifactNumToKeepStr: '2'))
+         buildDiscarder(logRotator(numToKeepStr: '3', artifactNumToKeepStr: '3'))
          timestamps()
      }
      stages {
-         stage("docker login") {
+         stage("up docker") {
             steps {
                 echo " ============== run docker container =================="
-                    sh " docker stop $(docker ps -a -q) "
                     sh " docker image prune -a -f "
                     sh " docker run -d -p 80:80 antonmrk/euroopt"
             }
