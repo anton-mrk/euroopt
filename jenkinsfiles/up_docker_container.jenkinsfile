@@ -6,7 +6,11 @@
      agent { 
          label 'master'
          }
-     triggers { upstream 'Create_image', hudson.model.Result.SUCCESS}
+     triggers { 
+         upstream (
+             upstreamProjects: 'Create_image',
+             threshold: hudson.model.Result.SUCCESS
+     }
      options {
          buildDiscarder(logRotator(numToKeepStr: '3', artifactNumToKeepStr: '2'))
          timestamps()
