@@ -17,8 +17,7 @@
                 echo " ============== run docker container =================="
                     sh " docker image prune -a -f "
                     sh " docker run -p 80:80 -d antonmrk/euroopt:latest "
-                }
             }
          }
      }
- }
+}
