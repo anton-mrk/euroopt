@@ -12,7 +12,7 @@
              threshold: hudson.model.Result.SUCCESS )
      }
      options {
-         buildDiscarder(logRotator(numToKeepStr: '3', artifactNumToKeepStr: '3'))
+         buildDiscarder(logRotator(numToKeepStr: '1', artifactNumToKeepStr: '1'))
          timestamps()
      }
      stages {
